@@ -55,7 +55,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center flex-none mr-8">
             <img
-              src="/public/turismo colombia fit logo-02.png"
+              src="/turismo colombia fit logo-02.png"
               alt="Logo de Turismo Colombia"
               className="h-20 w-auto max-w-[200px] object-contain"
             />
