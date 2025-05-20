@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
         // Mock successful login
         navigate('/');
       } else {
-        setError('Invalid email or password');
+        setError('Correo o contraseña inválidos');
       }
       setIsLoading(false);
     }, 1000);
@@ -34,9 +34,9 @@ const LoginPage: React.FC = () => {
       <div className="container mx-auto max-w-md">
         <div className="bg-white p-8 rounded-xl shadow-md">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">Bienvenido de nuevo</h1>
             <p className="text-gray-600">
-              Sign in to access your account and bookings
+              Inicia sesión para acceder a tu cuenta y reservas
             </p>
           </div>
           
@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
+                Correo electrónico
               </label>
               <input
                 type="email"
@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="your@email.com"
+                placeholder="tu@email.com"
                 required
               />
             </div>
@@ -65,10 +65,10 @@ const LoginPage: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
+                  Contraseña
                 </label>
                 <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700">
-                  Forgot password?
+                  ¿Olvidaste tu contraseña?
                 </Link>
               </div>
               <div className="relative">
@@ -103,7 +103,7 @@ const LoginPage: React.FC = () => {
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                Remember me
+                Recuérdame
               </label>
             </div>
             
@@ -131,7 +131,7 @@ const LoginPage: React.FC = () => {
               ) : (
                 <>
                   <LogIn className="h-5 w-5 mr-2" />
-                  Sign In
+                  Iniciar sesión
                 </>
               )}
             </button>
@@ -139,9 +139,9 @@ const LoginPage: React.FC = () => {
           
           <div className="mt-8 text-center">
             <p className="text-gray-600">
-              Don't have an account?{' '}
+              ¿No tienes una cuenta?{' '}
               <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
-                Sign up
+                Regístrate
               </Link>
             </p>
           </div>

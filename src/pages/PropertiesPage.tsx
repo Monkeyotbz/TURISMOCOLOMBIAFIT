@@ -127,12 +127,12 @@ const PropertiesPage: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-800">
-                {destination ? `Properties in ${destination}` : 'All Properties'}
+                {destination ? `Propiedades en ${destination}` : 'Todas las propiedades'}
               </h1>
               <p className="text-gray-600 mt-1">
-                {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
-                {checkIn && checkOut ? ` · ${checkIn} to ${checkOut}` : ''}
-                {guests ? ` · ${guests} ${guests === 1 ? 'guest' : 'guests'}` : ''}
+                {filteredProperties.length} {filteredProperties.length === 1 ? 'propiedad encontrada' : 'propiedades encontradas'}
+                {checkIn && checkOut ? ` · ${checkIn} a ${checkOut}` : ''}
+                {guests ? ` · ${guests} ${guests === 1 ? 'persona' : 'personas'}` : ''}
               </p>
             </div>
             <div className="flex items-center mt-4 md:mt-0 space-x-3">
@@ -142,10 +142,10 @@ const PropertiesPage: React.FC = () => {
                   onChange={(e) => setSortOption(e.target.value)}
                   className="appearance-none bg-gray-50 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <option value="recommended">Recommended</option>
-                  <option value="price-low">Price (Low to High)</option>
-                  <option value="price-high">Price (High to Low)</option>
-                  <option value="rating">Top Rated</option>
+                  <option value="recommended">Recomendado</option>
+                  <option value="price-low">Precio (menor a mayor)</option>
+                  <option value="price-high">Precio (mayor a menor)</option>
+                  <option value="rating">Mejor calificados</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg className="fill-current h-4 w-4" viewBox="0 0 20 20">
@@ -158,7 +158,7 @@ const PropertiesPage: React.FC = () => {
                 onClick={toggleFilter}
               >
                 <Sliders className="w-4 h-4" />
-                <span>Filters</span>
+                <span>Filtros</span>
               </button>
             </div>
           </div>
@@ -198,9 +198,9 @@ const PropertiesPage: React.FC = () => {
             ) : (
               <div className="text-center py-16">
                 <RefreshCw className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">No properties found</h3>
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">No se encontraron propiedades</h3>
                 <p className="text-gray-500 mb-6 max-w-md mx-auto">
-                  No properties match your current filters. Try adjusting your search criteria to find more options.
+                  No hay propiedades que coincidan con tus filtros actuales. Intenta ajustar tus criterios de búsqueda para encontrar más opciones.
                 </p>
                 <button
                   onClick={() => setActiveFilters({
@@ -211,7 +211,7 @@ const PropertiesPage: React.FC = () => {
                   })}
                   className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Reset Filters
+                  Restablecer filtros
                 </button>
               </div>
             )}

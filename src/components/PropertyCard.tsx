@@ -65,7 +65,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             ))}
             {amenities.length > 3 && (
               <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                +{amenities.length - 3} more
+                +{amenities.length - 3} más
               </span>
             )}
           </div>
@@ -73,11 +73,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         
         <div className="flex items-end justify-between mt-4">
           <div>
-            <p className="text-lg font-bold text-gray-800">${price}<span className="text-sm font-normal text-gray-500">/night</span></p>
-            <p className="text-xs text-gray-500">{reviewCount} reviews</p>
+            <p className="text-lg font-bold text-gray-800">${price}<span className="text-sm font-normal text-gray-500">/noche</span></p>
+            <p className="text-xs text-gray-500">{reviewCount} reseñas</p>
           </div>
           <button className="text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-lg transition-colors">
-            View Details
+            Ver detalles
           </button>
         </div>
       </div>

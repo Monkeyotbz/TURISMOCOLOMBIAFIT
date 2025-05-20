@@ -41,8 +41,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, className = '' }) => {
       onSubmit={handleSubmit}
       className={`bg-white rounded-lg shadow-xl p-4 lg:p-6 max-w-7xl w-full mx-auto ${className}`}
     >
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        <div className="flex-1 min-w-[200px]">
+      <div className="flex flex-col md:flex-row md:flex-wrap md:items-end gap-4">
+        <div className="flex-1 min-w-[120px]">
           <label htmlFor="destination" className="block text-gray-700 text-lg font-bold mb-2">
             Destino
           </label>
@@ -62,7 +62,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, className = '' }) => {
           </div>
         </div>
         
-        <div className="flex-1 min-w-[170px]">
+        <div className="flex-1 min-w-[120px]">
           <label htmlFor="check-in" className="block text-gray-700 text-base font-bold mb-2">
             Entrada
           </label>
@@ -83,7 +83,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, className = '' }) => {
           </div>
         </div>
         
-        <div className="flex-1 min-w-[170px]">
+        <div className="flex-1 min-w-[120px]">
           <label htmlFor="check-out" className="block text-gray-700 text-base font-bold mb-2">
             Salida
           </label>
@@ -104,7 +104,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, className = '' }) => {
           </div>
         </div>
         
-        <div className="flex-1 min-w-[140px] md:max-w-[150px]">
+        <div className="flex-1 min-w-[100px] md:max-w-[130px]">
           <label htmlFor="guests" className="block text-gray-700 text-base font-bold mb-2">
             Personas
           </label>
@@ -127,8 +127,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, className = '' }) => {
             </select>
           </div>
         </div>
-        
-        <div className="flex-1 min-w-[120px] md:max-w-[150px] mt-auto">
+        <div className="flex-none min-w-[100px] md:max-w-[150px]">
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-300"

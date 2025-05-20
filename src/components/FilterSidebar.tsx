@@ -28,13 +28,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
   // Available property types for filter
   const propertyTypes = [
-    'Hotel', 'Apartment', 'Villa', 'Resort', 'Cabin', 'Hostel'
+    'Hotel', 'Apartamento', 'Villa', 'Resort', 'Cabaña', 'Hostal'
   ];
 
   // Available amenities for filter
   const amenityOptions = [
-    'Wi-Fi', 'Pool', 'Parking', 'Air Conditioning', 'Kitchen',
-    'Gym', 'Spa', 'Pet Friendly', 'Breakfast Included', 'Beach Access'
+    'Wi-Fi', 'Piscina', 'Parqueadero', 'Aire acondicionado', 'Cocina',
+    'Gimnasio', 'Spa', 'Acepta mascotas', 'Desayuno incluido', 'Acceso a la playa'
   ];
 
   const handlePriceRangeChange = (index: number, value: number) => {
@@ -117,7 +117,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-800 flex items-center">
           <Sliders className="w-5 h-5 mr-2" />
-          Filters
+          Filtros
         </h3>
         {isMobile && onClose && (
           <button 
@@ -131,7 +131,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       
       {/* Price Range */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Price Range (per night)</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Rango de precio (por noche)</h4>
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-500">
             ${filters.priceRange[0]}
@@ -142,7 +142,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="min-price" className="sr-only">Minimum Price</label>
+            <label htmlFor="min-price" className="sr-only">Precio mínimo</label>
             <input
               type="number"
               id="min-price"
@@ -151,11 +151,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               value={filters.priceRange[0]}
               onChange={(e) => handlePriceRangeChange(0, parseInt(e.target.value))}
               className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Min"
+              placeholder="Mín"
             />
           </div>
           <div>
-            <label htmlFor="max-price" className="sr-only">Maximum Price</label>
+            <label htmlFor="max-price" className="sr-only">Precio máximo</label>
             <input
               type="number"
               id="max-price"
@@ -164,7 +164,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               value={filters.priceRange[1]}
               onChange={(e) => handlePriceRangeChange(1, parseInt(e.target.value))}
               className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Max"
+              placeholder="Máx"
             />
           </div>
         </div>
@@ -172,7 +172,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       
       {/* Property Types */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Property Type</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Tipo de propiedad</h4>
         <div className="space-y-2">
           {propertyTypes.map((type) => (
             <div key={type} className="flex items-center">
@@ -193,7 +193,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       
       {/* Rating */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Guest Rating</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Calificación de huéspedes</h4>
         <div className="flex space-x-2">
           {[5, 4, 3, 2].map((rating) => (
             <button
@@ -205,7 +205,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               }`}
               onClick={() => handleRatingChange(rating)}
             >
-              {rating}+ <span className="sr-only">stars and above</span>
+              {rating}+ <span className="sr-only">estrellas o más</span>
             </button>
           ))}
         </div>
@@ -213,7 +213,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       
       {/* Amenities */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Amenities</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Servicios</h4>
         <div className="space-y-2">
           {amenityOptions.map((amenity) => (
             <div key={amenity} className="flex items-center">
@@ -238,13 +238,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           onClick={handleApplyFilters}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
         >
-          Apply Filters
+          Aplicar filtros
         </button>
         <button
           onClick={handleResetFilters}
           className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors"
         >
-          Reset Filters
+          Restablecer filtros
         </button>
       </div>
     </div>

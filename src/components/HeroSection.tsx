@@ -3,10 +3,8 @@ import SearchBar from './SearchBar';
 import { useNavigate } from 'react-router-dom';
 
 const backgrounds = [
-  "/Cartagena2.jpg",
   "/propiedad2.jpg",
   "/propiedad3.jpg",
-  "/Cartagena.jpg",
 ];
 
 const HeroSection: React.FC = () => {
@@ -100,11 +98,11 @@ const HeroSection: React.FC = () => {
             </div>
             <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 text-center hover:bg-opacity-30 transition-all">
               <p className="text-white text-3xl font-bold">10k+</p>
-              <p className="text-blue-100 mt-1">Clientes Satisfechos</p>
+              <p className="text-blue-100 mt-1">Clientes satisfechos</p>
             </div>
             <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 text-center hover:bg-opacity-30 transition-all">
               <p className="text-white text-3xl font-bold">24/7</p>
-              <p className="text-blue-100 mt-1">Soporte</p>
+              <p className="text-blue-100 mt-1">Atención al cliente</p>
             </div>
           </div>
         </div>

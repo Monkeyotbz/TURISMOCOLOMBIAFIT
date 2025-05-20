@@ -40,7 +40,7 @@ const SignupPage: React.FC = () => {
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-gray-800 mb-2">Create an Account</h1>
             <p className="text-gray-600">
-              Join Wanderlust to start booking your perfect stay
+              Join Colombiaturismo.fit to start booking your perfect stay
             </p>
           </div>
           

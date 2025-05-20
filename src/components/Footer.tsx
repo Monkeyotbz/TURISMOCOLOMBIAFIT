@@ -9,11 +9,10 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
             <Link to="/" className="flex items-center mb-4">
-              <Globe className="h-8 w-8 mr-2 text-blue-400" />
-              <span className="font-bold text-xl text-white">Wanderlust</span>
+              <img src="/turismo colombia fit logo-02.png" alt="Colombiaturismo.fit" className="h-15 w-13" />
             </Link>
             <p className="mb-4 text-gray-400">
-              Find your perfect stay with Wanderlust. We offer a wide range of accommodations around the world at the best prices.
+              Encuentra tu estadía perfecta con Colombiaturismo.fit. Ofrecemos una amplia variedad de alojamientos alrededor Colombia a los mejores precios.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
@@ -36,52 +35,52 @@ const Footer: React.FC = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Destinations</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Destinos</h3>
             <ul className="space-y-3">
               <li>
                 <Link to="/properties?destination=Bali" className="text-gray-400 hover:text-white transition-colors">
-                  Bali, Indonesia
+                  
                 </Link>
               </li>
               <li>
                 <Link to="/properties?destination=Paris" className="text-gray-400 hover:text-white transition-colors">
-                  Paris, France
+                  
                 </Link>
               </li>
               <li>
                 <Link to="/properties?destination=Santorini" className="text-gray-400 hover:text-white transition-colors">
-                  Santorini, Greece
+                  
                 </Link>
               </li>
               <li>
                 <Link to="/properties?destination=New York" className="text-gray-400 hover:text-white transition-colors">
-                  New York, USA
+                  
                 </Link>
               </li>
               <li>
                 <Link to="/properties?destination=Tokyo" className="text-gray-400 hover:text-white transition-colors">
-                  Tokyo, Japan
+                  
                 </Link>
               </li>
               <li>
                 <Link to="/destinations" className="text-gray-400 hover:text-white transition-colors">
-                  View all destinations
+                  Ver todos los destinos
                 </Link>
               </li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Company</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Compañía</h3>
             <ul className="space-y-3">
               <li>
                 <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
+                  Sobre nosotros
                 </Link>
               </li>
               <li>
                 <Link to="/careers" className="text-gray-400 hover:text-white transition-colors">
-                  Careers
+                  Empleos
                 </Link>
               </li>
               <li>
@@ -91,53 +90,53 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/press" className="text-gray-400 hover:text-white transition-colors">
-                  Press
+                  Prensa
                 </Link>
               </li>
               <li>
                 <Link to="/partners" className="text-gray-400 hover:text-white transition-colors">
-                  Partners
+                  Socios
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact Us
+                  Contáctanos
                 </Link>
               </li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Soporte</h3>
             <ul className="space-y-3">
               <li>
                 <Link to="/help" className="text-gray-400 hover:text-white transition-colors">
-                  Help Center
+                  Centro de ayuda
                 </Link>
               </li>
               <li>
                 <Link to="/faq" className="text-gray-400 hover:text-white transition-colors">
-                  FAQs
+                  Preguntas frecuentes
                 </Link>
               </li>
               <li>
                 <Link to="/cancellation" className="text-gray-400 hover:text-white transition-colors">
-                  Cancellation Options
+                  Opciones de cancelación
                 </Link>
               </li>
               <li>
                 <Link to="/safety" className="text-gray-400 hover:text-white transition-colors">
-                  Safety Resource Center
+                  Centro de recursos de seguridad
                 </Link>
               </li>
               <li>
                 <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">
-                  Terms of Service
+                  Términos del servicio
                 </Link>
               </li>
               <li>
                 <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
-                  Privacy Policy
+                  Política de privacidad
                 </Link>
               </li>
             </ul>
@@ -148,14 +147,14 @@ const Footer: React.FC = () => {
         
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Wanderlust. All rights reserved.
+            © {new Date().getFullYear()} Gabriel Carvajal Colombiaturismo.fit. Todos los derechos reservados.
           </p>
           <div className="flex items-center mt-4 md:mt-0">
             <div className="flex items-center mr-4">
               <Globe className="h-4 w-4 mr-1 text-gray-400" />
               <select className="bg-transparent text-gray-400 text-sm border-none focus:ring-0">
-                <option value="en">English</option>
                 <option value="es">Español</option>
+                <option value="en">English</option>
                 <option value="fr">Français</option>
                 <option value="de">Deutsch</option>
               </select>
