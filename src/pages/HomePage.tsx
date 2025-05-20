@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
 import PropertyCard, { PropertyType } from '../components/PropertyCard';
 import { ArrowRight, ThumbsUp, BadgePercent, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SubscribeModal from '../components/SubscribeModal';
 
 const featuredProperties: PropertyType[] = [
   {
@@ -75,8 +76,19 @@ const destinations = [
 ];
 
 const HomePage: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowModal(true);
+    }, 1000); // 5000 ms = 5 segundos
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div>
+      <SubscribeModal open={showModal} onClose={() => setShowModal(false)} />
       <HeroSection />
       
       {/* Featured Properties */}

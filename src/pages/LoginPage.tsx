@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
+import { supabase } from '../supabaseClient'; // Asegúrate de que la ruta sea relativa al archivo actual
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -8,25 +9,34 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      // In a real application, this would be a call to your authentication API
-      if (email === 'demo@example.com' && password === 'password') {
-        // Mock successful login
-        navigate('/');
-      } else {
-        setError('Correo o contraseña inválidos');
-      }
-      setIsLoading(false);
-    }, 1000);
+
+    // Busca el usuario en Supabase
+    const { data, error: supabaseError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .eq('password', password) // En producción, nunca guardes contraseñas en texto plano
+      .single();
+
+    setIsLoading(false);
+
+    if (supabaseError || !data) {
+      setError('Correo o contraseña inválidos');
+      return;
+    }
+
+    // Guarda el usuario en localStorage para la sesión
+    localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
+
+    // Redirige al dashboard
+    navigate('/dashboard');
   };
 
   return (
@@ -39,13 +49,13 @@ const LoginPage: React.FC = () => {
               Inicia sesión para acceder a tu cuenta y reservas
             </p>
           </div>
-          
+
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
               {error}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -61,7 +71,7 @@ const LoginPage: React.FC = () => {
                 required
               />
             </div>
-            
+
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -94,7 +104,7 @@ const LoginPage: React.FC = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="flex items-center">
               <input
                 id="remember-me"
@@ -106,7 +116,7 @@ const LoginPage: React.FC = () => {
                 Recuérdame
               </label>
             </div>
-            
+
             <button
               type="submit"
               className="w-full flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
@@ -136,7 +146,7 @@ const LoginPage: React.FC = () => {
               )}
             </button>
           </form>
-          
+
           <div className="mt-8 text-center">
             <p className="text-gray-600">
               ¿No tienes una cuenta?{' '}

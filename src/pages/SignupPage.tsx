@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
+import { supabase } from '../supabaseClient'; // Asegúrate de importar bien la ruta
 
 const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -16,21 +17,28 @@ const SignupPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
+    setIsLoading(true);
+
+    // 1. Guarda el usuario en Supabase
+    const { error: insertError } = await supabase
+      .from('users') // Asegúrate de tener una tabla 'users' en Supabase
+      .insert([{ name, email, password }]);
+
+    if (insertError) {
+      setError('Error al registrar el usuario: ' + insertError.message);
+      setIsLoading(false);
       return;
     }
-    
-    setIsLoading(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      // In a real application, this would be a call to your registration API
-      // For now, we'll just simulate success
-      navigate('/');
-      setIsLoading(false);
-    }, 1000);
+
+    // 2. Guarda el usuario en localStorage (opcional, para mantener sesión local)
+    localStorage.setItem('user', JSON.stringify({ name, email }));
+
+    setIsLoading(false);
+
+    // 3. Aquí iría el envío de correos (ver siguiente sección)
+
+    // 4. Redirige al dashboard
+    navigate('/dashboard');
   };
 
   return (
