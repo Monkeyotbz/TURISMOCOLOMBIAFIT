@@ -68,11 +68,11 @@ const PropertyDetailPage: React.FC = () => {
         // Generate mock additional images based on the main image
         const mainImage = foundProperty.imageSrc;
         const additionalImages = [
-          'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg',
-          'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg',
-          'https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg',
-          'https://images.pexels.com/photos/2631746/pexels-photo-2631746.jpeg',
-          'https://images.pexels.com/photos/2507016/pexels-photo-2507016.jpeg'
+          '/Hoteles/671115738.jpg',
+          '/Hoteles/671116008.jpg',
+          '/Hoteles/671963015.jpg',
+          '/Hoteles/671115739.jpg',
+          
         ];
         
         setImages([mainImage, ...additionalImages]);

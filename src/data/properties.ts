@@ -4,14 +4,14 @@ import { PropertyType } from '../components/PropertyCard';
 export const properties: PropertyType[] = [
   {
     id: 1,
-    name: 'Casa Colonial en el Centro Histórico',
-    location: 'Cartagena, Bolívar',
+    name: 'Hotel Opera Medellín Centro Only Adults',
+    location: 'Medellín, Antioquia',
     price: 320,
     rating: 4.9,
     reviewCount: 112,
-    imageSrc: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=800',
-    type: 'Casa',
-    amenities: ['Piscina', 'Wi-Fi', 'Aire acondicionado', 'Cocina', 'Patio interior']
+    imageSrc: '/Hoteles/671115738.jpg',
+    type: 'Hotel',
+    amenities: ['Wi-Fi', 'Aire acondicionado', 'Patio interior']
   },
   {
     id: 2,
