@@ -19,22 +19,19 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
-  const { id, name, location, price, rating, reviewCount, imageSrc, type, amenities } = property;
+  const { id, name, location, rating, reviewCount, imageSrc, type, amenities } = property; // Eliminado "price"
 
   return (
     <Link 
       to={`/property/${id}`}
       className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="relative overflow-hidden">
-        <img 
-          src={imageSrc} 
-          alt={name} 
-          className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+      <div className="relative w-full h-64 overflow-hidden rounded-lg shadow-md">
+        <img
+          src={property.imageSrc}
+          alt={property.name}
+          className="w-full h-full object-cover"
         />
-        <div className="absolute top-3 left-3 bg-white bg-opacity-90 px-2 py-1 rounded-md text-xs font-medium">
-          {type}
-        </div>
       </div>
       
       <div className="p-4">
@@ -44,45 +41,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           </h3>
           <div className="flex items-center">
             <Star className="w-4 h-4 text-yellow-500 mr-1 fill-yellow-500" />
-            <span className="text-sm font-medium text-gray-700">{rating.toFixed(1)}</span>
+            <span className="text-sm text-gray-600">{rating}</span>
           </div>
         </div>
-        
-        <div className="flex items-center mt-1 text-sm text-gray-500">
-          <MapPin className="w-4 h-4 mr-1" />
-          <span>{location}</span>
-        </div>
-        
-        <div className="mt-3">
-          <div className="flex flex-wrap gap-1">
-            {amenities.slice(0, 3).map((amenity, index) => (
-              <span 
-                key={index} 
-                className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full"
-              >
-                {amenity}
-              </span>
-            ))}
-            {amenities.length > 3 && (
-              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                +{amenities.length - 3} más
-              </span>
-            )}
-          </div>
-        </div>
-        
-        <div className="flex items-end justify-between mt-4">
-          <div>
-            <p className="text-lg font-bold text-gray-800">${price}<span className="text-sm font-normal text-gray-500">/noche</span></p>
-            <p className="text-xs text-gray-500">{reviewCount} reseñas</p>
-          </div>
-          <button className="text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-lg transition-colors">
-            Ver detalles
-          </button>
-        </div>
+        <p className="text-sm text-gray-500">{location}</p>
       </div>
     </Link>
   );
 };
 
-export default PropertyCard;
+export default PropertyCard; 

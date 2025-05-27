@@ -4,12 +4,13 @@ import PropertyCard, { PropertyType } from '../components/PropertyCard';
 import { ArrowRight, ThumbsUp, BadgePercent, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SubscribeModal from '../components/SubscribeModal';
+import AboutCEOSection from '../components/AboutCEOSection';
 
 const featuredProperties: PropertyType[] = [
   {
     id: 1,
-    name: 'Casa Colonial en el Centro Histórico',
-    location: 'Cartagena, Bolívar',
+    name: 'Hotel Opera Medellín Centro Only Adults',
+    location: 'Medellín, Antioquia',
     price: 320,
     rating: 4.9,
     reviewCount: 112,
@@ -54,23 +55,23 @@ const featuredProperties: PropertyType[] = [
 
 const destinations = [
   {
-    name: 'Cartagena, Bolívar',
-    image: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=800',
+    name: 'Jardin Antioquia',
+    image: '/JardinA.jpg',
     properties: 120
   },
   {
-    name: 'Medellín, Antioquia',
-    image: 'https://images.pexels.com/photos/208733/pexels-photo-208733.jpeg?auto=compress&w=800',
+    name: 'cartagena, Bolívar', 
+    image: '/Cartagena1.3.jpg',
     properties: 98
   },
   {
-    name: 'San Andrés, San Andrés y Providencia',
-    image: 'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&w=800',
+    name: 'Medellín, Antioquia',
+    image: '/Medellin1.jpg',
     properties: 75
   },
   {
-    name: 'Santa Marta, Magdalena',
-    image: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&w=800',
+    name: 'Jerico Antioquia',
+    image: 'Jerico1.jpg',
     properties: 84
   }
 ];
@@ -90,6 +91,7 @@ const HomePage: React.FC = () => {
     <div>
       <SubscribeModal open={showModal} onClose={() => setShowModal(false)} />
       <HeroSection />
+      <AboutCEOSection />
       
       {/* Featured Properties */}
       <section className="py-16 px-4 bg-gray-50">
@@ -184,7 +186,7 @@ const HomePage: React.FC = () => {
                 to={`/properties?destination=${encodeURIComponent(destination.name)}`}
                 className="group rounded-xl overflow-hidden shadow-md relative"
               >
-                <div className="aspect-w-4 aspect-h-3">
+                <div className="relative w-full h-80">
                   <img 
                     src={destination.image} 
                     alt={destination.name} 
@@ -228,6 +230,107 @@ const HomePage: React.FC = () => {
             Al suscribirte, aceptas nuestra política de privacidad y das tu consentimiento para recibir correos electrónicos de marketing.
           </p>
         </div>
+      </section>
+
+      {/* Valores y galería creativa */}
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          {/* Valores */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-16">
+            <div className="flex flex-col items-center">
+              <img src="/ventaja1.jpg" alt="Hospitalidad" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <h3 className="text-lg font-bold text-center mt-2">Hospitalidad y<br />Servicio al Cliente Excepcionales</h3>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="/ventaja2.jpg" alt="Autenticidad" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <h3 className="text-lg font-bold text-center mt-2">Autenticidad y<br />Experiencias Locales</h3>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="/ventaja3.jpg" alt="Planes turísticos" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <h3 className="text-lg font-bold text-center mt-2">Planes turísticos<br />flexibles y personalizados</h3>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src="/ventaja4.jpg" alt="Seguridad" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <h3 className="text-lg font-bold text-center mt-2">Seguridad y<br />Bienestar del Viajero</h3>
+            </div>
+          </div>
+
+          {/* Galería creativa */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <img src="/galeria1.jpg" alt="Galería 1" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/galeria2.jpg" alt="Galería 2" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/galeria3.jpg" alt="Galería 3" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <img src="/galeria4.jpg" alt="Galería 4" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/galeria5.jpg" alt="Galería 5" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+          </div>
+        </div>
+      </section>
+
+      {/* Sección de oro con slider infinito */}
+      <section
+        className="py-20 bg-black text-white overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, #111 80%, #FFD70022 100%)",
+          borderTop: "4px solid #FFD700",
+        }}
+      >
+        <div className="container mx-auto text-center mb-12">
+          <h2
+            className="text-4xl md:text-5xl font-extrabold mb-6"
+            style={{
+              color: "#FFD700",
+              letterSpacing: "0.12em",
+              fontFamily: "'Cinzel', serif",
+              textShadow: "0 2px 12px #000, 0 0px 2px #FFD70099",
+            }}
+          >
+            ORO PURO DE COLOMBIA
+          </h2>
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            Descubre la riqueza ancestral de Colombia a través de nuestro oro autóctono de 18 quilates, trabajado por manos expertas que mantienen vivas las tradiciones indígenas y artesanales.
+          </p>
+        </div>
+
+        {/* Slider infinito */}
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex animate-scroll"
+            style={{
+              animation: "scroll 100s linear infinite",
+            }}
+          >
+            {[...Array(16)].map((_, index) => (
+              <img
+                key={index}
+                src={`/oro${(index % 3) + 1}.jpg`} // Cambia las imágenes según tus archivos
+                alt={`Joya de oro ${index + 1}`}
+                className="w-64 h-64 object-cover"
+              />
+            ))}
+          </div>
+        </div>
+
+        <style>
+          {`
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-50%);
+              }
+            }
+            .animate-scroll {
+              display: flex;
+              width: 200%; /* Duplicamos el ancho para el efecto infinito */
+            }
+            .animate-scroll img {
+              flex-shrink: 0;
+            }
+          `}
+        </style>
       </section>
     </div>
   );

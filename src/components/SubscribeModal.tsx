@@ -29,7 +29,7 @@ const SubscribeModal: React.FC<Props> = ({ open, onClose }) => {
           &times;
         </button>
         <h2 className="text-4xl font-bold text-red-700 text-center mb-4">
-          ¡Suscríbete y no te pierdas de increíbles descuentos!
+          ¡Suscríbete en nuestro blog y obten 50% de descuento en tu primera reservación!
         </h2>
         <p className="text-gray-700 text-center mb-8">
           ¿Quieres ser el primero en obtener nuestros descuentos? Suscríbete y recibe un <b>descuento del 50%</b> en tu primera reservación.

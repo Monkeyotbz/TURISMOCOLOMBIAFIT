@@ -32,9 +32,9 @@ const Navbar = () => {
     navigate('/');
   };
 
-  const navbarClasses = `fixed w-full z-50 transition-all duration-300 ${
+  const navbarClasses = `fixed w-full z-40 transition-all duration-300 ${
     isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-  }`;
+  } top-[10px]`; // Ajusta la posición para que quede debajo de la barra de promoción
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -64,7 +64,7 @@ const Navbar = () => {
         {/* Menú central - solo escritorio */}
         <div className="hidden lg:flex flex-1 justify-center mx-2 items-center space-x-1">
           <Link to="/" className={linkClasses('/')}>Home</Link>
-          <Link to="/about" className={linkClasses('/about')}>Nosotros</Link>
+          <Link to="/nosotros" className={linkClasses('/nosotros')}>Nosotros</Link>
           <Link to="/tours" className={linkClasses('/tours')}>Tours</Link>
           <Link to="/properties" className={linkClasses('/properties')}>Hospedajes</Link>
           <Link to="/destinations" className={linkClasses('/destinations')}>Destinos</Link>
@@ -133,6 +133,12 @@ const Navbar = () => {
               </Link>
               <Link to="/deals" className="text-gray-700 hover:text-[#bd0000] font-medium text-base" onClick={toggleMenu}>
                 Ofertas
+              </Link>
+              <Link to="/blog" className="text-gray-700 hover:text-[#bd0000] font-medium text-base" onClick={toggleMenu}>
+                Blog
+              </Link>
+              <Link to="/nosotros" className="text-gray-700 hover:text-[#bd0000] font-medium text-base" onClick={toggleMenu}>
+                Nosotros
               </Link>
               <hr className="my-2" />
               <div className="flex flex-col space-y-3">
