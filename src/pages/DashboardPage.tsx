@@ -1,67 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from "recharts";
+import { FaHotel, FaPlane, FaMapMarkedAlt, FaUserCircle, FaMoneyBillWave } from "react-icons/fa";
+import ReservaForm from "../components/ReservaForm";
 
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+type Reserva = {
+  id: string;
+  tipo: string;
+  nombre: string;
+  destino: string;
+  fecha_inicio: string;
+  fecha_fin: string;
+  estado: string;
+};
+
 const DashboardPage: React.FC = () => {
   const [section, setSection] = useState("resumen");
+  const [reservas, setReservas] = useState<Reserva[]>([]);
+
+  useEffect(() => {
+    if (!user.email) return;
+    fetch(`http://localhost:5000/api/reservas?email=${user.email}`)
+      .then(res => res.json())
+      .then(data => setReservas(data));
+  }, [user.email]);
+
+  const resumenData = [
+    { name: "Reservas", value: 2 },
+    { name: "Vuelos", value: 1 },
+    { name: "Tours", value: 3 },
+  ];
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className="min-h-screen flex bg-gray-100 pt-24">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-lg p-6 flex flex-col gap-4">
-        <div className="mb-8">
-          <h2 className="text-xl font-bold">¡Hola, {user.email || "Usuario"}!</h2>
+      <aside className="w-64 bg-white shadow-lg p-6 flex flex-col gap-4 sticky top-24 h-[calc(100vh-6rem)]">
+        <div className="mb-8 flex items-center gap-2">
+          <FaUserCircle className="text-2xl text-red-400" />
+          <h2 className="text-xl font-bold truncate">{user.name || "Usuario"}</h2>
         </div>
-        <button className={`text-left py-2 px-4 rounded ${section === "resumen" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("resumen")}>Resumen</button>
-        <button className={`text-left py-2 px-4 rounded ${section === "reservas" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("reservas")}>Reservaciones</button>
-        <button className={`text-left py-2 px-4 rounded ${section === "vuelos" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("vuelos")}>Tiquetes de Vuelo</button>
-        <button className={`text-left py-2 px-4 rounded ${section === "tours" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("tours")}>Tours</button>
-        <button className={`text-left py-2 px-4 rounded ${section === "cuenta" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("cuenta")}>Estado de Cuenta</button>
-        <button className={`text-left py-2 px-4 rounded ${section === "perfil" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("perfil")}>Perfil</button>
+        <button className={`text-left py-2 px-4 rounded transition-colors ${section === "resumen" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("resumen")}>Resumen</button>
+        <button className={`text-left py-2 px-4 rounded transition-colors ${section === "reservas" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("reservas")}>Reservaciones</button>
+        <button className={`text-left py-2 px-4 rounded transition-colors ${section === "vuelos" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("vuelos")}>Tiquetes de Vuelo</button>
+        <button className={`text-left py-2 px-4 rounded transition-colors ${section === "tours" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("tours")}>Tours</button>
+        <button className={`text-left py-2 px-4 rounded transition-colors ${section === "cuenta" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("cuenta")}>Estado de Cuenta</button>
+        <button className={`text-left py-2 px-4 rounded transition-colors ${section === "perfil" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("perfil")}>Perfil</button>
       </aside>
-
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 max-w-6xl mx-auto">
         {section === "resumen" && (
           <div>
             <h1 className="text-2xl font-bold mb-4">Resumen General</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-lg shadow p-6 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white rounded-lg shadow p-6 text-center flex flex-col items-center transition-shadow hover:shadow-xl">
+                <FaHotel className="text-3xl text-red-400 mb-2" />
                 <div className="text-4xl font-bold text-red-600 mb-2">2</div>
                 <div className="text-gray-700">Reservaciones activas</div>
               </div>
-              <div className="bg-white rounded-lg shadow p-6 text-center">
+              <div className="bg-white rounded-lg shadow p-6 text-center flex flex-col items-center transition-shadow hover:shadow-xl">
+                <FaPlane className="text-3xl text-blue-400 mb-2" />
                 <div className="text-4xl font-bold text-blue-600 mb-2">1</div>
                 <div className="text-gray-700">Vuelos próximos</div>
               </div>
-              <div className="bg-white rounded-lg shadow p-6 text-center">
+              <div className="bg-white rounded-lg shadow p-6 text-center flex flex-col items-center transition-shadow hover:shadow-xl">
+                <FaMapMarkedAlt className="text-3xl text-green-400 mb-2" />
                 <div className="text-4xl font-bold text-green-600 mb-2">3</div>
                 <div className="text-gray-700">Tours reservados</div>
               </div>
             </div>
-          </div>
-        )}
-
-        {section === "reservas" && (
-          <div>
-            <h1 className="text-2xl font-bold mb-4">Tus Reservaciones</h1>
-            <div className="bg-white rounded-lg shadow p-6 mb-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="font-bold">Hotel Caribe</div>
-                  <div className="text-gray-600 text-sm">Cartagena, 12-15 Jun 2024</div>
-                </div>
-                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">Confirmada</span>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6 mb-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="font-bold">Eco Cabaña</div>
-                  <div className="text-gray-600 text-sm">Salento, 20-23 Jul 2024</div>
-                </div>
-                <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">Pendiente</span>
-              </div>
+            {/* Gráfico de barras */}
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-lg font-bold mb-4">Visualización de tus actividades</h2>
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={resumenData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis allowDecimals={false} />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#ef4444" radius={[8, 8, 0, 0]} isAnimationActive />
+                </BarChart>
+              </ResponsiveContainer>
+              {/* Aquí va la lógica de reservas */}
+              {reservas.length === 0 ? (
+                <div className="text-gray-500 mt-4">No tienes reservaciones activas.</div>
+              ) : (
+                reservas.filter((r: Reserva) => r.tipo === "hotel").map((reserva: Reserva) => (
+                  <div key={reserva.id} className="bg-white rounded-lg shadow p-6 mb-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="font-bold">{reserva.nombre}</div>
+                        <div className="text-gray-600 text-sm">{reserva.destino}, {reserva.fecha_inicio} - {reserva.fecha_fin}</div>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-xs ${reserva.estado === "Confirmada" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>{reserva.estado}</span>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
+  const [user, setUser] = useState<{ name?: string; email?: string; is_admin?: boolean } | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -20,14 +21,44 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    setUser(storedUser ? JSON.parse(storedUser) : null);
-  }, [location]);
+    // Obtener el usuario actual desde Supabase
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUser({
+          name: user.user_metadata?.name || '',
+          email: user.email,
+          is_admin: user.user_metadata?.is_admin || false,
+        });
+      } else {
+        setUser(null);
+      }
+    };
+
+    getUser();
+
+    // Escuchar cambios en la sesión
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          name: session.user.user_metadata?.name || '',
+          email: session.user.email,
+          is_admin: session.user.user_metadata?.is_admin || false,
+        });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
     navigate('/');
   };
@@ -48,6 +79,8 @@ const Navbar = () => {
         ? 'text-[#bd0000]'
         : 'text-gray-800 hover:text-[#bd0000]'
     }`;
+
+  const firstName = user?.name ? user.name.split(' ')[0] : user?.email || 'Usuario';
 
   return (
     <nav className={navbarClasses}>
@@ -91,7 +124,9 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="hidden lg:flex items-center space-x-2 flex-none ml-4">
-            <span className="font-semibold text-gray-800">Hola, {user.name || user.email}</span>
+            <span className={`font-semibold text-center ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
+              Hola, {firstName}
+            </span>
             <Link
               to="/dashboard"
               className="text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-full px-4 py-2 transition-colors"
@@ -104,6 +139,16 @@ const Navbar = () => {
             >
               Cerrar sesión
             </button>
+            {user?.is_admin && (
+              <Link
+                to="/admin/properties/new"
+                className="text-center py-2 rounded-full font-medium"
+                style={{ backgroundColor: '#22c55e', color: '#fff' }}
+                onClick={toggleMenu}
+              >
+                Admin
+              </Link>
+            )}
           </div>
         )}
 
@@ -162,7 +207,7 @@ const Navbar = () => {
                   </>
                 ) : (
                   <>
-                    <span className="font-semibold text-gray-800 text-center">Hola, {user.name || user.email}</span>
+                    <span className="font-semibold text-gray-700 text-center">Hola, {firstName}</span>
                     <Link 
                       to="/dashboard" 
                       className="text-center py-2 rounded-full font-medium"
@@ -177,6 +222,16 @@ const Navbar = () => {
                     >
                       Cerrar sesión
                     </button>
+                    {user?.is_admin && (
+                      <Link
+                        to="/admin/properties/new"
+                        className="text-center py-2 rounded-full font-medium"
+                        style={{ backgroundColor: '#22c55e', color: '#fff' }}
+                        onClick={toggleMenu}
+                      >
+                        Admin
+                      </Link>
+                    )}
                   </>
                 )}
               </div>

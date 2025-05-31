@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
-import { supabase } from '../supabaseClient'; // Asegúrate de que la ruta sea relativa al archivo actual
+import { supabase } from '../supabaseClient';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -17,30 +17,42 @@ const LoginPage: React.FC = () => {
     setError('');
     setIsLoading(true);
 
-    // Busca el usuario en Supabase
-    const { data, error: supabaseError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .eq('password', password) // En producción, nunca guardes contraseñas en texto plano
-      .single();
+    try {
+      // Autenticar al usuario con Supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    setIsLoading(false);
+      if (error) {
+        // Mensaje personalizado si el email no está confirmado
+        if (
+          error.message.toLowerCase().includes('email not confirmed') ||
+          error.message.toLowerCase().includes('correo electrónico no confirmado')
+        ) {
+          setError('Debes confirmar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada o spam.');
+        } else {
+          setError(error.message);
+        }
+        setIsLoading(false);
+        return;
+      }
 
-    if (supabaseError || !data) {
-      setError('Correo o contraseña inválidos');
-      return;
+      // Guarda el usuario en localStorage
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      setIsLoading(false);
+
+      // Redirige al dashboard
+      navigate('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Error al iniciar sesión');
+      setIsLoading(false);
     }
-
-    // Guarda el usuario en localStorage para la sesión
-    localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
-
-    // Redirige al dashboard
-    navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 pt-24 pb-16 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="container mx-auto max-w-md">
         <div className="bg-white p-8 rounded-xl shadow-md">
           <div className="text-center mb-8">
@@ -83,7 +95,7 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -96,11 +108,7 @@ const LoginPage: React.FC = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
             </div>

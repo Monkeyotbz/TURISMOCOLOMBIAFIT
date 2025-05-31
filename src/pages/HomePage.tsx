@@ -238,32 +238,32 @@ const HomePage: React.FC = () => {
           {/* Valores */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-16">
             <div className="flex flex-col items-center">
-              <img src="/ventaja1.jpg" alt="Hospitalidad" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <img src="/mesero.jpeg" alt="Hospitalidad" className="w-45 h-60 object-cover rounded-xl shadow-lg mb-4 border-4 " />
               <h3 className="text-lg font-bold text-center mt-2">Hospitalidad y<br />Servicio al Cliente Excepcionales</h3>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/ventaja2.jpg" alt="Autenticidad" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <img src="/IMG-20240612-WA0039-c67099b.jpg" alt="Autenticidad" className="w-45 h-60 object-cover rounded-xl shadow-lg mb-4 border-4 " />
               <h3 className="text-lg font-bold text-center mt-2">Autenticidad y<br />Experiencias Locales</h3>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/ventaja3.jpg" alt="Planes turísticos" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <img src="/IMG-20240112-WA0026.jpg" alt="Planes turísticos" className="w-45 h-60 object-cover rounded-xl shadow-lg mb-4 border-4 " />
               <h3 className="text-lg font-bold text-center mt-2">Planes turísticos<br />flexibles y personalizados</h3>
             </div>
             <div className="flex flex-col items-center">
-              <img src="/ventaja4.jpg" alt="Seguridad" className="w-36 h-36 object-cover rounded-xl shadow-lg mb-4 border-4 border-yellow-300" />
+              <img src="/1720922643823.jpg" alt="Seguridad" className="w-45 h-60 object-cover rounded-xl shadow-lg mb-4 border-4 " />
               <h3 className="text-lg font-bold text-center mt-2">Seguridad y<br />Bienestar del Viajero</h3>
             </div>
           </div>
 
           {/* Galería creativa */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <img src="/galeria1.jpg" alt="Galería 1" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
-            <img src="/galeria2.jpg" alt="Galería 2" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
-            <img src="/galeria3.jpg" alt="Galería 3" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/1719529276003.jpg" alt="Galería 1" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/1723057617039.jpg" alt="Galería 2" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/af8d9fe5-1e30-4208-8f12-92c816c115b2.jpg" alt="Galería 3" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <img src="/galeria4.jpg" alt="Galería 4" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
-            <img src="/galeria5.jpg" alt="Galería 5" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/Cartagena1.1.jpg" alt="Galería 4" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
+            <img src="/colombia 🇨🇴.jpg" alt="Galería 5" className="w-full h-64 object-cover rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" />
           </div>
         </div>
       </section>

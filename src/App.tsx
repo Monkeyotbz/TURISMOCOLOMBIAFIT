@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -15,6 +16,8 @@ import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
 import BlogPage from './pages/BlogPage';
 import NosotrosPage from './pages/NosotrosPage';
+import AdminPropertyForm from './pages/AdminPropertyForms';
+import CuponPage from './pages/CuponPage';
 
 function App() {
   return (
@@ -25,12 +28,10 @@ function App() {
           className="w-full bg-red-700 text-white flex items-center justify-center py-2 px-3 text-base font-semibold z-50 fixed top-0 left-0"
           style={{ height: '25px' }} // Altura fija de la barra
         >
-          <span className="mr-2 text-xl">🍃</span>
           <span>
-            Obtén un <span className="font-bold">50% de descuento en tu primera reservación</span> al
+            Obtén un <span className="font-bold">10% de descuento en tu primera reservación</span> al
             suscribirte a nuestro Blog
           </span>
-          <span className="ml-2 text-xl">🍃🍃</span>
           <a
             href="/suscripcion"
             className="ml-4 underline hover:text-yellow-200 transition-colors font-bold"
@@ -43,6 +44,7 @@ function App() {
           <Navbar />
         </div>
         <main className="flex-grow mt-[5px]">
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/properties" element={<PropertiesPage />} />
@@ -60,6 +62,8 @@ function App() {
             />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/nosotros" element={<NosotrosPage />} />
+            <Route path="/admin/properties/new" element={<AdminPropertyForm />} />
+            <Route path="/cupon/:code" element={<CuponPage />} />
           </Routes>
         </main>
         <Footer />

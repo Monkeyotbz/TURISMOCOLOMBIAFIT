@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
-import { supabase } from '../supabaseClient'; // Asegúrate de importar bien la ruta
+import { supabase } from '../supabaseClient';
 
 const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -11,38 +11,81 @@ const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
-  const navigate = useNavigate();
-  
+  const [confirmationSent, setConfirmationSent] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
-    // 1. Guarda el usuario en Supabase
-    const { error: insertError } = await supabase
-      .from('users') // Asegúrate de tener una tabla 'users' en Supabase
-      .insert([{ name, email, password }]);
-
-    if (insertError) {
-      setError('Error al registrar el usuario: ' + insertError.message);
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden.');
       setIsLoading(false);
       return;
     }
 
-    // 2. Guarda el usuario en localStorage (opcional, para mantener sesión local)
-    localStorage.setItem('user', JSON.stringify({ name, email }));
+    try {
+      // 1. Registrar usuario en Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+            is_admin: false,
+          },
+        },
+      });
 
-    setIsLoading(false);
+      if (error) {
+        throw new Error(error.message);
+      }
 
-    // 3. Aquí iría el envío de correos (ver siguiente sección)
+      // 2. Insertar usuario en la tabla profiles (solo si el registro fue exitoso)
+      if (data.user) {
+        const { error: profileError } = await supabase.from('profiles').insert([
+          {
+            id: data.user.id,
+            email,
+            name,
+            is_admin: false,
+          },
+        ]);
+        if (profileError) {
+          throw new Error(profileError.message);
+        }
+      }
 
-    // 4. Redirige al dashboard
-    navigate('/dashboard');
+      setIsLoading(false);
+      setConfirmationSent(true); // Mostrar mensaje de confirmación
+    } catch (err: any) {
+      setError(err.message || 'Error inesperado al registrarse.');
+      setIsLoading(false);
+    }
   };
 
+  if (confirmationSent) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-xl shadow-md text-center">
+          <h1 className="text-2xl font-bold mb-4 text-green-700">¡Revisa tu correo!</h1>
+          <p className="text-gray-700 mb-4">
+            Te hemos enviado un enlace para confirmar tu email.<br />
+            Debes confirmar tu correo electrónico para poder iniciar sesión.
+          </p>
+          <Link
+            to="/login"
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Ir a iniciar sesión
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 pt-24 pb-16 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="container mx-auto max-w-md">
         <div className="bg-white p-8 rounded-xl shadow-md">
           <div className="text-center mb-8">
@@ -51,13 +94,13 @@ const SignupPage: React.FC = () => {
               Join Colombiaturismo.fit to start booking your perfect stay
             </p>
           </div>
-          
+
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
               {error}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -73,7 +116,7 @@ const SignupPage: React.FC = () => {
                 required
               />
             </div>
-            
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email Address
@@ -88,14 +131,14 @@ const SignupPage: React.FC = () => {
                 required
               />
             </div>
-            
+
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                 Password
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -109,24 +152,20 @@ const SignupPage: React.FC = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
               <p className="mt-1 text-xs text-gray-500">
                 Password must be at least 8 characters long
               </p>
             </div>
-            
+
             <div>
               <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm Password
               </label>
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 id="confirm-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -135,27 +174,7 @@ const SignupPage: React.FC = () => {
                 required
               />
             </div>
-            
-            <div className="flex items-start">
-              <input
-                id="terms"
-                name="terms"
-                type="checkbox"
-                className="h-4 w-4 mt-1 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                required
-              />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                I agree to the{' '}
-                <Link to="/terms" className="text-blue-600 hover:text-blue-700">
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link to="/privacy" className="text-blue-600 hover:text-blue-700">
-                  Privacy Policy
-                </Link>
-              </label>
-            </div>
-            
+
             <button
               type="submit"
               className="w-full flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
@@ -185,7 +204,7 @@ const SignupPage: React.FC = () => {
               )}
             </button>
           </form>
-          
+
           <div className="mt-8 text-center">
             <p className="text-gray-600">
               Already have an account?{' '}
