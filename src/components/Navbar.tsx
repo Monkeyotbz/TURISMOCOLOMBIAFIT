@@ -1,71 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [user, setUser] = useState<{ name?: string; email?: string; is_admin?: boolean } | null>(null);
+  const [user, setUser] = useState<{ name?: string; email?: string; rol?: string } | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const isHome = location.pathname === '/';
 
+  // Efecto para scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Efecto para leer usuario de localStorage cuando cambia la ruta o el storage
   useEffect(() => {
-    // Obtener el usuario actual desde Supabase
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUser({
-          name: user.user_metadata?.name || '',
-          email: user.email,
-          is_admin: user.user_metadata?.is_admin || false,
-        });
-      } else {
-        setUser(null);
-      }
-    };
+    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+    setUser(storedUser);
+  }, [location.pathname, isOpen]);
 
-    getUser();
+  // Agrega este efecto extra para forzar actualización cada vez que el componente se renderiza
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      setUser(storedUser);
+    }, 500); // cada medio segundo
 
-    // Escuchar cambios en la sesión
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUser({
-          name: session.user.user_metadata?.name || '',
-          email: session.user.email,
-          is_admin: session.user.user_metadata?.is_admin || false,
-        });
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => {
-      subscription?.unsubscribe();
-    };
+    return () => clearInterval(interval);
   }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    localStorage.removeItem('user');
     setUser(null);
     navigate('/');
   };
 
   const navbarClasses = `fixed w-full z-40 transition-all duration-300 ${
     isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-  } top-[10px]`; // Ajusta la posición para que quede debajo de la barra de promoción
+  } top-[10px]`;
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -80,8 +59,14 @@ const Navbar = () => {
         : 'text-gray-800 hover:text-[#bd0000]'
     }`;
 
-  const firstName = user?.name ? user.name.split(' ')[0] : user?.email || 'Usuario';
+  const firstName = user?.name
+    ? user.name.split(' ')[0]
+    : user?.email
+    ? user.email.split('@')[0]
+    : '';
+  const isSuperAdmin = user?.rol === 'superadmin';
 
+  console.log('Usuario en Navbar:', user);
   return (
     <nav className={navbarClasses}>
       <div className="container mx-auto px-8 flex items-center justify-between w-full">
@@ -125,7 +110,7 @@ const Navbar = () => {
         ) : (
           <div className="hidden lg:flex items-center space-x-2 flex-none ml-4">
             <span className={`font-semibold text-center ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
-              Hola, {firstName}
+              Hola, {isSuperAdmin ? `${firstName} (Admin)` : firstName}
             </span>
             <Link
               to="/dashboard"
@@ -139,15 +124,17 @@ const Navbar = () => {
             >
               Cerrar sesión
             </button>
-            {user?.is_admin && (
-              <Link
-                to="/admin/properties/new"
+            {isSuperAdmin && (
+              <a
+                href="http://localhost:5174/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-center py-2 rounded-full font-medium"
                 style={{ backgroundColor: '#22c55e', color: '#fff' }}
                 onClick={toggleMenu}
               >
-                Admin
-              </Link>
+                Admin Dashboard
+              </a>
             )}
           </div>
         )}
@@ -169,7 +156,7 @@ const Navbar = () => {
             className="absolute top-0 right-0 w-3/4 max-w-xs h-full bg-white shadow-lg py-4 px-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex flex-col space-y-4 mt-16"> {/* <-- Agrega mt-16 aquí */}
+            <div className="flex flex-col space-y-4 mt-16">
               <Link to="/properties" className="text-gray-700 hover:text-[#bd0000] font-medium text-base" onClick={toggleMenu}>
                 Hospedajes
               </Link>
@@ -197,7 +184,7 @@ const Navbar = () => {
                       Iniciar Sesión
                     </Link>
                     <Link 
-                      to="/signup" 
+                      to="/register" 
                       className="text-center py-2 rounded-full font-medium"
                       style={{ backgroundColor: '#bd0000', color: '#fff' }}
                       onClick={toggleMenu}
@@ -207,7 +194,7 @@ const Navbar = () => {
                   </>
                 ) : (
                   <>
-                    <span className="font-semibold text-gray-700 text-center">Hola, {firstName}</span>
+                    <span className="font-semibold text-gray-700 text-center">Hola, {isSuperAdmin ? `${firstName} (Admin)` : firstName}</span>
                     <Link 
                       to="/dashboard" 
                       className="text-center py-2 rounded-full font-medium"
@@ -217,19 +204,19 @@ const Navbar = () => {
                       Mi Panel
                     </Link>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => { handleLogout(); toggleMenu(); }}
                       className="text-[#bd0000] border border-[#bd0000] text-center py-2 rounded-full font-medium"
                     >
                       Cerrar sesión
                     </button>
-                    {user?.is_admin && (
+                    {isSuperAdmin && (
                       <Link
-                        to="/admin/properties/new"
+                        to="/admin"
                         className="text-center py-2 rounded-full font-medium"
                         style={{ backgroundColor: '#22c55e', color: '#fff' }}
                         onClick={toggleMenu}
                       >
-                        Admin
+                        Admin Dashboard
                       </Link>
                     )}
                   </>

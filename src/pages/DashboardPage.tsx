@@ -3,9 +3,12 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
 import { FaHotel, FaPlane, FaMapMarkedAlt, FaUserCircle, FaMoneyBillWave } from "react-icons/fa";
-import ReservaForm from "../components/ReservaForm";
+import { useNavigate } from "react-router-dom";
 
-const user = JSON.parse(localStorage.getItem("user") || "{}");
+const ADMIN_DASHBOARD_URL = "http://localhost:5174/"; // Cambia esta URL por la de producción en Vercel
+
+const user = JSON.parse(localStorage.getItem("user") || "null");
+const isSuperAdmin = user && user.rol === "superadmin";
 
 type Reserva = {
   id: string;
@@ -20,6 +23,7 @@ type Reserva = {
 const DashboardPage: React.FC = () => {
   const [section, setSection] = useState("resumen");
   const [reservas, setReservas] = useState<Reserva[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user.email) return;
@@ -33,6 +37,11 @@ const DashboardPage: React.FC = () => {
     { name: "Vuelos", value: 1 },
     { name: "Tours", value: 3 },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen flex bg-gray-100 pt-24">
@@ -48,9 +57,28 @@ const DashboardPage: React.FC = () => {
         <button className={`text-left py-2 px-4 rounded transition-colors ${section === "tours" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("tours")}>Tours</button>
         <button className={`text-left py-2 px-4 rounded transition-colors ${section === "cuenta" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("cuenta")}>Estado de Cuenta</button>
         <button className={`text-left py-2 px-4 rounded transition-colors ${section === "perfil" ? "bg-red-100 text-red-700 font-bold" : "hover:bg-gray-100"}`} onClick={() => setSection("perfil")}>Perfil</button>
+        <button
+          onClick={handleLogout}
+          className="mt-8 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow transition"
+        >
+          Cerrar sesión
+        </button>
       </aside>
       {/* Main Content */}
       <main className="flex-1 p-8 max-w-6xl mx-auto">
+        {/* Botón solo para superadmin */}
+        {isSuperAdmin && (
+          <div className="flex justify-end mb-6">
+            <a
+              href={ADMIN_DASHBOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition"
+            >
+              Ir al Dashboard de Administración
+            </a>
+          </div>
+        )}
         {section === "resumen" && (
           <div>
             <h1 className="text-2xl font-bold mb-4">Resumen General</h1>
@@ -87,17 +115,17 @@ const DashboardPage: React.FC = () => {
               {reservas.length === 0 ? (
                 <div className="text-gray-500 mt-4">No tienes reservaciones activas.</div>
               ) : (
-                reservas.filter((r: Reserva) => r.tipo === "hotel").map((reserva: Reserva) => (
-                  <div key={reserva.id} className="bg-white rounded-lg shadow p-6 mb-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <div className="font-bold">{reserva.nombre}</div>
-                        <div className="text-gray-600 text-sm">{reserva.destino}, {reserva.fecha_inicio} - {reserva.fecha_fin}</div>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-xs ${reserva.estado === "Confirmada" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>{reserva.estado}</span>
+              reservas.filter((r: Reserva) => r.tipo === "hotel").map((reserva: Reserva) => (
+                <div key={reserva.id} className="bg-white rounded-lg shadow p-6 mb-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="font-bold">{reserva.nombre}</div>
+                      <div className="text-gray-600 text-sm">{reserva.destino}, {reserva.fecha_inicio} - {reserva.fecha_fin}</div>
                     </div>
+                    <span className={`px-3 py-1 rounded-full text-xs ${reserva.estado === "Confirmada" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>{reserva.estado}</span>
                   </div>
-                ))
+                </div>
+              ))
               )}
             </div>
           </div>
