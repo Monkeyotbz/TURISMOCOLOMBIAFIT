@@ -169,7 +169,7 @@ const Navbar = () => {
             className="absolute top-0 right-0 w-3/4 max-w-xs h-full bg-white shadow-lg py-4 px-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-4 mt-16"> {/* <-- Agrega mt-16 aquí */}
               <Link to="/properties" className="text-gray-700 hover:text-[#bd0000] font-medium text-base" onClick={toggleMenu}>
                 Hospedajes
               </Link>

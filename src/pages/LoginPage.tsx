@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
-import { supabase } from '../supabaseClient';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,33 +17,24 @@ const LoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Autenticar al usuario con Supabase
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const res = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (error) {
-        // Mensaje personalizado si el email no está confirmado
-        if (
-          error.message.toLowerCase().includes('email not confirmed') ||
-          error.message.toLowerCase().includes('correo electrónico no confirmado')
-        ) {
-          setError('Debes confirmar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada o spam.');
-        } else {
-          setError(error.message);
-        }
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'Error al iniciar sesión');
         setIsLoading(false);
         return;
       }
 
-      // Guarda el usuario en localStorage
+      // Guarda el usuario en localStorage si lo deseas
       localStorage.setItem('user', JSON.stringify(data.user));
-
       setIsLoading(false);
-
-      // Redirige al dashboard
-      navigate('/dashboard');
+      navigate('/dashboard'); // Cambia la ruta si tu dashboard tiene otro path
     } catch (err: any) {
       setError(err.message || 'Error al iniciar sesión');
       setIsLoading(false);
@@ -53,8 +43,8 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="container mx-auto max-w-md">
-        <div className="bg-white p-8 rounded-xl shadow-md">
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-sm bg-white p-6 sm:p-8 rounded-xl shadow-md">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-gray-800 mb-2">Bienvenido de nuevo</h1>
             <p className="text-gray-600">

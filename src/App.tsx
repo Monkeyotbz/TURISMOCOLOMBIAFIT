@@ -18,6 +18,7 @@ import BlogPage from './pages/BlogPage';
 import NosotrosPage from './pages/NosotrosPage';
 import AdminPropertyForm from './pages/AdminPropertyForms';
 import CuponPage from './pages/CuponPage';
+import ConfirmarCorreo from './pages/ConfirmarCorreo';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             <Route path="/nosotros" element={<NosotrosPage />} />
             <Route path="/admin/properties/new" element={<AdminPropertyForm />} />
             <Route path="/cupon/:code" element={<CuponPage />} />
+            <Route path="/confirmar-correo" element={<ConfirmarCorreo />} />
           </Routes>
         </main>
         <Footer />
